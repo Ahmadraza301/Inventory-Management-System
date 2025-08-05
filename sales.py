@@ -8,7 +8,7 @@ class salesClass:
     def __init__(self,root):
         self.root=root
         self.root.geometry("1100x500+320+220")
-        self.root.title("Inventory Management System | Nishant Gupta")
+        self.root.title("Inventory Management System | Ahmad Ansari")
         self.root.config(bg="white")
         self.root.resizable(False,False)
         self.root.focus_force()
@@ -48,7 +48,7 @@ class salesClass:
         self.bill_area.pack(fill=BOTH,expand=1)
 
         #------------- image -----------------
-        self.bill_photo=Image.open("Inventory-Management-System/images/cat2.jpg")
+        self.bill_photo=Image.open("C:/Inventory-Management-System/images/cat2.jpg")
         self.bill_photo=self.bill_photo.resize((450,300))
         self.bill_photo=ImageTk.PhotoImage(self.bill_photo)
 
@@ -60,7 +60,7 @@ class salesClass:
     def show(self):
         del self.blll_list[:]
         self.Sales_List.delete(0,END)
-        for i in os.listdir('Inventory-Management-System/bill'):
+        for i in os.listdir('C:/Inventory-Management-System/bill'):
             if i.split('.')[-1]=='txt':
                 self.Sales_List.insert(END,i)
                 self.blll_list.append(i.split('.')[0])

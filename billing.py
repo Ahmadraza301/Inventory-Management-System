@@ -10,14 +10,14 @@ class billClass:
     def __init__(self,root):
         self.root=root
         self.root.geometry("1350x700+110+80")
-        self.root.title("Inventory Management System | Nishant Gupta")
+        self.root.title("Inventory Management System | Ahmad Ansari")
         self.root.resizable(False,False)
         self.root.config(bg="white")
         self.cart_list=[]
         self.chk_print=0
 
         #------------- title --------------
-        self.icon_title=PhotoImage(file="Inventory-Management-System/images/logo1.png")
+        self.icon_title=PhotoImage(file="C:/Inventory-Management-System/images/logo1.png")
         title=Label(self.root,text="Inventory Management System",image=self.icon_title,compound=LEFT,font=("times new roman",40,"bold"),bg="#010c48",fg="white",anchor="w",padx=20).place(x=0,y=0,relwidth=1,height=70)
 
         #------------ logout button -----------

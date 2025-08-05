@@ -14,12 +14,12 @@ class IMS:
     def __init__(self,root):
         self.root=root
         self.root.geometry("1350x700+110+80")
-        self.root.title("Inventory Management System | Nishant Gupta")
+        self.root.title("Inventory Management System | Ahmad Ansari")
         self.root.resizable(False,False)
         self.root.config(bg="white")
 
         #------------- title --------------
-        self.icon_title=PhotoImage(file="Inventory-Management-System/images/logo1.png")
+        self.icon_title=PhotoImage(file="C:/Inventory-Management-System/images/logo1.png")
         title=Label(self.root,text="Inventory Management System",image=self.icon_title,compound=LEFT,font=("times new roman",40,"bold"),bg="#010c48",fg="white",anchor="w",padx=20).place(x=0,y=0,relwidth=1,height=70)
 
         #------------ logout button -----------
@@ -30,7 +30,7 @@ class IMS:
         self.lbl_clock.place(x=0,y=70,relwidth=1,height=30)
 
         #---------------- left menu ---------------
-        self.MenuLogo=Image.open("Inventory-Management-System/images/menu_im.png")
+        self.MenuLogo=Image.open("C:/Inventory-Management-System/images/menu_im.png")
         self.MenuLogo=self.MenuLogo.resize((200,200))
         self.MenuLogo=ImageTk.PhotoImage(self.MenuLogo)
         LeftMenu=Frame(self.root,bd=2,relief=RIDGE,bg="white")
@@ -41,7 +41,7 @@ class IMS:
 
         lbl_menu=Label(LeftMenu,text="Menu",font=("times new roman",20),bg="#009688").pack(side=TOP,fill=X)
 
-        self.icon_side=PhotoImage(file="Inventory-Management-System/images/side.png")
+        self.icon_side=PhotoImage(file="C:/Inventory-Management-System/images/side.png")
         
         btn_employee=Button(LeftMenu,text="Employee",command=self.employee,image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
         btn_supplier=Button(LeftMenu,text="Supplier",command=self.supplier,image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
@@ -67,7 +67,7 @@ class IMS:
         self.lbl_sales.place(x=650,y=300,height=150,width=300)
 
         #------------ footer -----------------
-        lbl_footer=Label(self.root,text="IMS-Inventory Management System | Developed by Nishant Gupta\nFor any Technical Issues Contact: 9899459288",font=("times new roman",12),bg="#4d636d",fg="white").pack(side=BOTTOM,fill=X)
+        lbl_footer=Label(self.root,text="IMS-Inventory Management System | Developed by Ahmad Ansari\nFor any Technical Issues Contact: 7058930166",font=("times new roman",12),bg="#4d636d",fg="white").pack(side=BOTTOM,fill=X)
 
         self.update_content()
 #-------------- functions ----------------
@@ -107,7 +107,7 @@ class IMS:
             supplier=cur.fetchall()
             self.lbl_supplier.config(text=f"Total Supplier\n[ {str(len(supplier))} ]")
             
-            bill=len(os.listdir("Inventory-Management-System/bill"))
+            bill=len(os.listdir("C:/Inventory-Management-System/bill"))
             self.lbl_sales.config(text=f"Total Sales\n[ {str(bill)} ]")
 
             time_=time.strftime("%I:%M:%S")

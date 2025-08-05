@@ -7,7 +7,7 @@ class categoryClass:
     def __init__(self,root):
         self.root=root
         self.root.geometry("1100x500+320+220")
-        self.root.title("Inventory Management System | Nishant Gupta")
+        self.root.title("Inventory Management System | Ahmad Ansari")
         self.root.config(bg="white")
         self.root.resizable(False,False)
         self.root.focus_force()
