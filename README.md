@@ -2,6 +2,25 @@
 
 This project is a Tkinter-based Inventory Management System. It includes a dashboard and modules for employees, suppliers, categories, products, sales, and billing. A portable Windows executable is provided and can also be rebuilt locally with PyInstaller.
 
+### Screenshots
+1. **Dashboard**  
+   ![Dashboard](images/Dashboard_images.png)
+
+2. **Employee Module**  
+   ![Employee](images/Employee_Image.png)
+
+3. **Supplier Module**  
+   ![Supplier](images/Product_suupplier_image.png)
+
+4. **Product Category**  
+   ![Product Category](images/Product_category.png)
+
+5. **Product Module**  
+   ![Product](images/Product_details.png)
+
+6. **Sales / Billing Page**  
+   ![Sales](images/Bill_pages.png)
+
 ### Quick Start (Run the app)
 - Double-click: `dist/ready.exe`
 - No Python required. The exe is single-file and GUI-only (no console window).
@@ -91,5 +110,3 @@ Then re-run the build command (see above).
 ### Support
 If you encounter an error dialog or the app fails to start:
 - Provide the text of the popup or paste the contents of `build/ready/warn-ready.txt` when asking for help.
-
-
