@@ -9,6 +9,7 @@ from supplier import supplierClass
 from category import categoryClass
 from product import productClass
 from sales import salesClass
+from util_paths import get_resource_path, get_bill_dir, ensure_database_exists
 
 class IMS:
     def __init__(self,root):
@@ -19,7 +20,8 @@ class IMS:
         self.root.config(bg="white")
 
         #------------- title --------------
-        self.icon_title=PhotoImage(file="C:/Inventory-Management-System/images/logo1.png")
+        ensure_database_exists()
+        self.icon_title=PhotoImage(file=get_resource_path("images/logo1.png"))
         title=Label(self.root,text="Inventory Management System",image=self.icon_title,compound=LEFT,font=("times new roman",40,"bold"),bg="#010c48",fg="white",anchor="w",padx=20).place(x=0,y=0,relwidth=1,height=70)
 
         #------------ logout button -----------
@@ -30,7 +32,7 @@ class IMS:
         self.lbl_clock.place(x=0,y=70,relwidth=1,height=30)
 
         #---------------- left menu ---------------
-        self.MenuLogo=Image.open("C:/Inventory-Management-System/images/menu_im.png")
+        self.MenuLogo=Image.open(get_resource_path("images/menu_im.png"))
         self.MenuLogo=self.MenuLogo.resize((200,200))
         self.MenuLogo=ImageTk.PhotoImage(self.MenuLogo)
         LeftMenu=Frame(self.root,bd=2,relief=RIDGE,bg="white")
@@ -41,7 +43,7 @@ class IMS:
 
         lbl_menu=Label(LeftMenu,text="Menu",font=("times new roman",20),bg="#009688").pack(side=TOP,fill=X)
 
-        self.icon_side=PhotoImage(file="C:/Inventory-Management-System/images/side.png")
+        self.icon_side=PhotoImage(file=get_resource_path("images/side.png"))
         
         btn_employee=Button(LeftMenu,text="Employee",command=self.employee,image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
         btn_supplier=Button(LeftMenu,text="Supplier",command=self.supplier,image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
@@ -107,7 +109,7 @@ class IMS:
             supplier=cur.fetchall()
             self.lbl_supplier.config(text=f"Total Supplier\n[ {str(len(supplier))} ]")
             
-            bill=len(os.listdir("C:/Inventory-Management-System/bill"))
+            bill=len(os.listdir(get_bill_dir()))
             self.lbl_sales.config(text=f"Total Sales\n[ {str(bill)} ]")
 
             time_=time.strftime("%I:%M:%S")

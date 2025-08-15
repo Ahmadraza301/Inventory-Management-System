@@ -5,6 +5,7 @@ import sqlite3
 import time
 import os
 import tempfile
+from util_paths import get_resource_path, get_bill_dir, ensure_database_exists
 
 class billClass:
     def __init__(self,root):
@@ -17,7 +18,8 @@ class billClass:
         self.chk_print=0
 
         #------------- title --------------
-        self.icon_title=PhotoImage(file="C:/Inventory-Management-System/images/logo1.png")
+        ensure_database_exists()
+        self.icon_title=PhotoImage(file=get_resource_path("images/logo1.png"))
         title=Label(self.root,text="Inventory Management System",image=self.icon_title,compound=LEFT,font=("times new roman",40,"bold"),bg="#010c48",fg="white",anchor="w",padx=20).place(x=0,y=0,relwidth=1,height=70)
 
         #------------ logout button -----------
@@ -341,7 +343,8 @@ class billClass:
             #--------- bill bottom --------------
             self.bill_bottom()
 
-            fp=open(f'Inventory-Management-System/bill/{str(self.invoice)}.txt','w')
+            bill_dir = get_bill_dir()
+            fp=open(os.path.join(bill_dir, f"{str(self.invoice)}.txt"),'w')
             fp.write(self.txt_bill_area.get('1.0',END))
             fp.close()
             messagebox.showinfo("Saved","Bill has been generated",parent=self.root)
