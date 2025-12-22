@@ -1,95 +1,278 @@
-## Inventory Management System (Tkinter) – Windows EXE Guide
+# 🏢 Inventory Management System
 
-This project is a Tkinter-based Inventory Management System. It includes a dashboard and modules for employees, suppliers, categories, products, sales, and billing. A portable Windows executable is provided and can also be rebuilt locally with PyInstaller.
+A modern, full-stack web application for comprehensive inventory management built with React.js and Django REST Framework.
 
-### Quick Start (Run the app)
-- Double-click: `dist/ready.exe`
-- No Python required. The exe is single-file and GUI-only (no console window).
-- On first run, the app ensures `ims.db` (database) exists beside the exe and creates a writable `bill` folder next to the exe. For best results, place `ready.exe` in a user-writable folder like Desktop or Documents.
+## 🚀 Features
 
-### Resource handling (important)
-- Images are bundled and loaded at runtime via a helper (`util_paths.py`).
-- `ims.db` is either bundled and copied next to the exe, or created if absent.
-- Bills are saved in a `bill` directory beside the exe.
+### 🔐 Authentication & Security
+- JWT-based authentication system
+- User registration and login
+- Protected routes and secure API endpoints
+- Password hashing and validation
 
-### Build the EXE from source
-Requirements (for building):
-- Windows 10/11
-- Python with the Windows launcher (`py`) and pip
+### 📊 Dashboard & Analytics
+- Real-time statistics and metrics
+- Interactive charts (Bar, Pie, Line)
+- Revenue analytics and trends
+- Inventory overview and alerts
 
-1) Open PowerShell in the project root (`C:\Inventory-Management-System`).
-2) Install/upgrade dependencies:
-```powershell
-py -m pip install --upgrade pip
-py -m pip install pyinstaller pillow
+### 👥 Employee Management
+- Complete CRUD operations
+- Auto-generated Employee IDs (EMP1234)
+- Role-based access control
+- Salary and contact management
+
+### 🏪 Supplier Management
+- Supplier information management
+- Auto-generated Supplier IDs (SUP1234)
+- Contact details and status tracking
+- Supplier performance analytics
+
+### 📦 Product Management
+- Product catalog with categories
+- Auto-generated Product Codes (PRD1234)
+- Stock quantity tracking
+- Price management and status control
+
+### 💰 Sales Management
+- Multi-item sales transactions
+- Auto-generated Invoice Numbers
+- Customer information capture
+- Automatic inventory updates
+- Discount calculations
+
+### 📈 Reports & Analytics
+- Comprehensive sales reports
+- Product performance analysis
+- Category-wise analytics
+- Employee performance tracking
+- PDF report generation
+
+### 📄 PDF Generation
+- Professional sales invoices
+- Detailed reports with charts
+- Indian Rupee (₹) formatting
+- Downloadable documents
+
+## 🛠️ Technology Stack
+
+### Frontend
+- **React.js 18** - Modern UI framework
+- **Material-UI (MUI)** - Professional components
+- **React Router** - Navigation and routing
+- **Axios** - API communication
+- **React Hook Form** - Form management
+- **Recharts** - Data visualization
+- **jsPDF** - PDF generation
+
+### Backend
+- **Django 4.2.7** - Web framework
+- **Django REST Framework** - API development
+- **PostgreSQL** - Production database
+- **JWT Authentication** - Secure tokens
+- **CORS Headers** - Cross-origin requests
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.8+
+- Node.js 16+
+- PostgreSQL 12+
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone <repository-url>
+cd Inventory-Management-System
 ```
-3) Build a single-file, GUI-only exe named `ready.exe` (bundles images and database):
-```powershell
-py -m PyInstaller --onefile --noconsole --name ready --add-data "images;images" --add-data "ims.db;." dashboard.py
-```
-4) Optional: Use a custom icon if you add `icon.ico` to the project root:
-```powershell
-py -m PyInstaller --onefile --noconsole --icon icon.ico --name ready --add-data "images;images" --add-data "ims.db;." dashboard.py
-```
-5) Output location:
-- The exe will be created at `dist/ready.exe`.
 
-Notes:
-- If `pyinstaller` is not recognized as a command, use the module form shown above: `py -m PyInstaller ...`.
-- Tkinter and SQLite are built into Python. Pillow (`pillow`) is required for image handling.
-
-### Run in development (without building)
-1) Install Pillow (if not already installed):
-```powershell
-py -m pip install pillow
-```
-2) Launch the app:
-```powershell
-py dashboard.py
+2. **Backend Setup**
+```bash
+cd backend
+pip install -r ../requirements.txt
 ```
 
-### Clean builds
-If you need a fresh build, remove previous artifacts:
-```powershell
-Remove-Item -Recurse -Force build, dist, *.spec
+3. **Configure Environment**
+```bash
+# Copy and edit environment file
+cp .env.example .env
+# Update database credentials in .env
 ```
-Then re-run the build command (see above).
 
-### Troubleshooting
-- PyInstaller command not found:
-  - Use `py -m PyInstaller ...` instead of `pyinstaller ...` so you don’t depend on PATH.
+4. **Database Setup**
+```bash
+python manage.py migrate
+python manage.py createsuperuser
+python create_sample_data.py
+```
 
-- Missing images at runtime:
-  - Ensure the `--add-data "images;images"` argument is present in the build command.
-  - The app resolves resources via `util_paths.get_resource_path()`.
+5. **Frontend Setup**
+```bash
+cd ../frontend
+npm install
+```
 
-- Database errors or read-only issues:
-  - The app writes `ims.db` and bills next to the exe. Run the exe from a user-writable folder (not inside `Program Files`).
+### Running the Application
 
-- Build warnings or packaging issues:
-  - Check: `build/ready/warn-ready.txt` (for `ready.exe`) or `build/dashboard/warn-dashboard.txt` (for `dashboard.exe`).
-  - Share the contents if you need help resolving them.
+1. **Start Backend Server**
+```bash
+cd backend
+python manage.py runserver 8000
+```
 
-- Antivirus flags the exe:
-  - One-file packers can trigger false positives. Whitelist the exe if needed.
+2. **Start Frontend Server**
+```bash
+cd frontend
+npm start
+```
 
-- Need a console for debugging:
-  - Omit `--noconsole` (or use `--console`) during build to see logs in a console window.
+3. **Access the Application**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- Admin Panel: http://localhost:8000/admin
 
-### Project structure (key items)
-- `dashboard.py`: Main entry point
-- `util_paths.py`: Resolves resource paths and ensures `ims.db` and `bill` folder exist
-- `images/`: UI images bundled into the exe
-- `ims.db`: SQLite database (bundled and/or created next to the exe)
-- `bill/`: Generated bills (created at runtime)
-- `dist/ready.exe`: Built single-file executable
+## 🔧 Configuration
 
-### Rebuilding with a different name or icon
-- Change the `--name` argument to set the exe name
-- Provide `--icon icon.ico` to embed a custom icon
+### Environment Variables (.env)
+```env
+# Database Configuration
+DB_NAME=inventory_db
+DB_USER=your_username
+DB_PASSWORD=your_password
+DB_HOST=localhost
+DB_PORT=5432
+USE_POSTGRES=True
 
-### Support
-If you encounter an error dialog or the app fails to start:
-- Provide the text of the popup or paste the contents of `build/ready/warn-ready.txt` when asking for help.
+# Django Configuration
+SECRET_KEY=your-secret-key
+DEBUG=True
 
+# CORS Configuration
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+```
 
+## 📱 Features Overview
+
+### Auto-Generation Systems
+- **Employee IDs**: EMP + 4 digits (e.g., EMP1234)
+- **Supplier IDs**: SUP + 4 digits (e.g., SUP1234)
+- **Product Codes**: PRD + 4 digits (e.g., PRD1234)
+- **Invoice Numbers**: INV + timestamp (e.g., INV20251222140135)
+
+### Business Logic
+- **Stock Management**: Real-time inventory updates
+- **Price Calculations**: Automatic totals and discounts
+- **Stock Validation**: Prevents overselling
+- **Currency**: Indian Rupee (₹) formatting throughout
+
+### User Experience
+- **Responsive Design**: Mobile-friendly interface
+- **Loading States**: Visual feedback for operations
+- **Error Handling**: Clear, actionable error messages
+- **Success Notifications**: Toast confirmations
+- **Search & Filter**: Quick data access
+
+## 🔒 Security Features
+
+- JWT token-based authentication
+- Password hashing with Django's security
+- CORS properly configured
+- Input validation and sanitization
+- Protected API endpoints
+- SQL injection prevention
+
+## 📊 API Endpoints
+
+### Authentication
+- `POST /api/auth/register/` - User registration
+- `POST /api/auth/login/` - User login
+- `POST /api/auth/logout/` - User logout
+
+### Core Entities
+- `GET/POST /api/employees/` - Employee management
+- `GET/POST /api/suppliers/` - Supplier management
+- `GET/POST /api/categories/` - Category management
+- `GET/POST /api/products/` - Product management
+- `GET/POST /api/sales/` - Sales management
+
+### Analytics
+- `GET /api/dashboard/stats/` - Dashboard statistics
+- `GET /api/dashboard/activities/` - Recent activities
+- `GET /api/sales/reports/` - Sales reports
+
+## 🚀 Production Deployment
+
+### Pre-Deployment Checklist
+- [ ] Set `DEBUG=False`
+- [ ] Configure `ALLOWED_HOSTS`
+- [ ] Set up production database
+- [ ] Configure static file serving
+- [ ] Set up SSL certificates
+- [ ] Configure monitoring and logging
+
+### Docker Deployment
+```bash
+# Build and run with Docker Compose
+docker-compose up --build
+```
+
+## 📁 Project Structure
+
+```
+Inventory-Management-System/
+├── backend/
+│   ├── apps/
+│   │   ├── authentication/
+│   │   ├── employees/
+│   │   ├── suppliers/
+│   │   ├── categories/
+│   │   ├── products/
+│   │   ├── sales/
+│   │   └── dashboard/
+│   ├── inventory_system/
+│   ├── manage.py
+│   └── create_sample_data.py
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── contexts/
+│   │   ├── pages/
+│   │   ├── utils/
+│   │   ├── App.js
+│   │   └── index.js
+│   └── package.json
+├── .env.example
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 👨‍💻 Author
+
+**Built by Ahmad**  
+**Technology**: React & Django  
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue in the repository
+- Check the documentation
+- Review the API endpoints
+
+---
+
+**🎉 Enjoy your modern Inventory Management System!**
