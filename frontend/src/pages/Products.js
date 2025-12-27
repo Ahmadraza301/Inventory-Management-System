@@ -104,10 +104,28 @@ const Products = () => {
     { field: 'category_name', headerName: 'Category', width: 150 },
     { field: 'supplier_name', headerName: 'Supplier', width: 150 },
     { 
-      field: 'price', 
-      headerName: 'Price', 
+      field: 'buy_price', 
+      headerName: 'Buy Price', 
       width: 100,
       renderCell: (params) => `₹${params.value}`
+    },
+    { 
+      field: 'sell_price', 
+      headerName: 'Sell Price', 
+      width: 100,
+      renderCell: (params) => `₹${params.value}`
+    },
+    { 
+      field: 'profit_per_unit', 
+      headerName: 'Profit/Unit', 
+      width: 100,
+      renderCell: (params) => `₹${params.value?.toFixed(2) || '0.00'}`
+    },
+    { 
+      field: 'profit_margin_percentage', 
+      headerName: 'Margin %', 
+      width: 100,
+      renderCell: (params) => `${params.value?.toFixed(1) || '0.0'}%`
     },
     { field: 'quantity', headerName: 'Quantity', width: 100 },
     {
@@ -270,20 +288,46 @@ const Products = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Controller
-                  name="price"
+                  name="buy_price"
                   control={control}
                   rules={{ 
-                    required: 'Price is required',
-                    min: { value: 0, message: 'Price must be positive' }
+                    required: 'Buy price is required',
+                    min: { value: 0, message: 'Buy price must be positive' }
                   }}
                   render={({ field }) => (
                     <TextField
                       {...field}
-                      label="Price"
+                      label="Buy Price (Cost)"
                       type="number"
                       fullWidth
-                      error={!!errors.price}
-                      helperText={errors.price?.message}
+                      error={!!errors.buy_price}
+                      helperText={errors.buy_price?.message}
+                      InputProps={{
+                        startAdornment: '₹'
+                      }}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Controller
+                  name="sell_price"
+                  control={control}
+                  rules={{ 
+                    required: 'Sell price is required',
+                    min: { value: 0, message: 'Sell price must be positive' }
+                  }}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Sell Price"
+                      type="number"
+                      fullWidth
+                      error={!!errors.sell_price}
+                      helperText={errors.sell_price?.message}
+                      InputProps={{
+                        startAdornment: '₹'
+                      }}
                     />
                   )}
                 />

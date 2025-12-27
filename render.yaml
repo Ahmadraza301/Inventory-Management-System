@@ -1,0 +1,47 @@
+services:
+  # Backend Django API
+  - type: web
+    name: inventory-backend
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      cd backend
+      python manage.py collectstatic --noinput
+      python manage.py migrate
+    startCommand: |
+      cd backend
+      gunicorn inventory_system.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: inventory_system.production_settings
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: inventory-db
+          property: connectionString
+
+  # Frontend React App
+  - type: web
+    name: inventory-frontend
+    env: node
+    buildCommand: |
+      cd frontend
+      npm install
+      npm run build
+    startCommand: |
+      cd frontend
+      npx serve -s build -l $PORT
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://inventory-backend.onrender.com
+
+# Database
+databases:
+  - name: inventory-db
+    databaseName: inventory_management
+    user: inventory_user

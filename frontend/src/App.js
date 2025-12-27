@@ -14,6 +14,9 @@ import Products from './pages/Products';
 import Sales from './pages/Sales';
 import Reports from './pages/Reports';
 
+// Import axios configuration
+import './config/axios';
+
 function App() {
   return (
     <AuthProvider>

@@ -266,7 +266,7 @@ const Dashboard = () => {
         </Grid>
       </Grid>
 
-      {/* Revenue Cards */}
+      {/* Revenue & Profit Cards */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
@@ -280,32 +280,76 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
-            title="Today's Revenue"
-            value={`₹${stats.revenue.today_revenue.toFixed(2)}`}
+            title="Total Profit"
+            value={`₹${stats.profit.total_profit.toFixed(2)}`}
             icon={<TrendingUp />}
             color="#2e7d32"
+            trend="up"
+            trendValue={`${stats.profit.profit_margin.toFixed(1)}% margin`}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            title="Today's Profit"
+            value={`₹${stats.profit.today_profit.toFixed(2)}`}
+            icon={<Assessment />}
+            color="#7b1fa2"
             trend="up"
             trendValue="+22%"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
-            title="This Week"
-            value={`₹${stats.revenue.week_revenue.toFixed(2)}`}
-            icon={<Assessment />}
-            color="#7b1fa2"
+            title="Month Profit"
+            value={`₹${stats.profit.month_profit.toFixed(2)}`}
+            icon={<Timeline />}
+            color="#f57c00"
             trend="up"
             trendValue="+18%"
           />
         </Grid>
+      </Grid>
+
+      {/* Inventory Value Cards */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
-            title="This Month"
-            value={`₹${stats.revenue.month_revenue.toFixed(2)}`}
-            icon={<Timeline />}
-            color="#f57c00"
+            title="Inventory Cost Value"
+            value={`₹${stats.inventory.value_cost.toFixed(2)}`}
+            icon={<Inventory2 />}
+            color="#5d4037"
             trend="up"
-            trendValue="+25%"
+            trendValue="Cost Price"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            title="Inventory Sell Value"
+            value={`₹${stats.inventory.value_sell.toFixed(2)}`}
+            icon={<Inventory />}
+            color="#1976d2"
+            trend="up"
+            trendValue="Selling Price"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            title="Potential Profit"
+            value={`₹${stats.inventory.potential_profit.toFixed(2)}`}
+            icon={<TrendingUp />}
+            color="#388e3c"
+            trend="up"
+            trendValue="If all sold"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard
+            title="Avg Profit Margin"
+            value={`${stats.inventory.avg_profit_margin.toFixed(1)}%`}
+            icon={<Assessment />}
+            color="#e91e63"
+            trend="up"
+            trendValue="Inventory"
           />
         </Grid>
       </Grid>
@@ -319,7 +363,7 @@ const Dashboard = () => {
                 Sales Trend (Last 7 Days)
               </Typography>
               <ResponsiveContainer width="100%" height={350}>
-                <AreaChart data={stats.recent_sales_chart}>
+                <AreaChart data={stats.charts.recent_sales}>
                   <defs>
                     <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#1976d2" stopOpacity={0.8}/>
@@ -328,7 +372,7 @@ const Dashboard = () => {
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis 
-                    dataKey="created_at__date" 
+                    dataKey="date" 
                     stroke="#666"
                     fontSize={12}
                   />
@@ -343,7 +387,7 @@ const Dashboard = () => {
                   />
                   <Area
                     type="monotone"
-                    dataKey="daily_revenue"
+                    dataKey="revenue"
                     stroke="#1976d2"
                     strokeWidth={3}
                     fillOpacity={1}
@@ -409,7 +453,7 @@ const Dashboard = () => {
                 Top Selling Products
               </Typography>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.top_products}>
+                <BarChart data={stats.charts.top_profit_products}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis 
                     dataKey="product__name" 
@@ -437,7 +481,7 @@ const Dashboard = () => {
       </Grid>
 
       {/* Inventory Alerts */}
-      {(stats.inventory_alerts.low_stock_count > 0 || stats.inventory_alerts.out_of_stock_count > 0) && (
+      {(stats.inventory.low_stock_count > 0 || stats.inventory.out_of_stock_count > 0) && (
         <Fade in={true} timeout={1600}>
           <Grid container spacing={3} sx={{ mt: 2 }}>
             <Grid item xs={12}>
@@ -453,18 +497,18 @@ const Dashboard = () => {
               >
                 <AlertTitle sx={{ fontWeight: 600 }}>Inventory Alerts</AlertTitle>
                 <Box display="flex" gap={2} flexWrap="wrap" mt={1}>
-                  {stats.inventory_alerts.low_stock_count > 0 && (
+                  {stats.inventory.low_stock_count > 0 && (
                     <Chip
                       icon={<Inventory2 />}
-                      label={`${stats.inventory_alerts.low_stock_count} products running low`}
+                      label={`${stats.inventory.low_stock_count} products running low`}
                       color="warning"
                       variant="outlined"
                     />
                   )}
-                  {stats.inventory_alerts.out_of_stock_count > 0 && (
+                  {stats.inventory.out_of_stock_count > 0 && (
                     <Chip
                       icon={<Warning />}
-                      label={`${stats.inventory_alerts.out_of_stock_count} products out of stock`}
+                      label={`${stats.inventory.out_of_stock_count} products out of stock`}
                       color="error"
                       variant="outlined"
                     />

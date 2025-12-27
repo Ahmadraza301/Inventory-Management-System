@@ -110,6 +110,9 @@ def sales_report(request):
             'discount_percentage': float(sale.discount_percentage),
             'discount_amount': float(sale.discount_amount),
             'net_amount': float(sale.net_amount),
+            'total_cost': float(sale.total_cost),
+            'total_profit': float(sale.total_profit),
+            'profit_margin': float(sale.profit_margin_percentage),
             'items': []
         }
         
@@ -121,7 +124,11 @@ def sales_report(request):
                 'supplier': item.product.supplier.name if item.product.supplier else 'N/A',
                 'quantity': item.quantity,
                 'unit_price': float(item.unit_price),
-                'total_price': float(item.total_price)
+                'unit_cost': float(item.unit_cost),
+                'total_price': float(item.total_price),
+                'total_cost': float(item.total_cost),
+                'profit': float(item.profit),
+                'profit_margin': float(item.profit_margin_percentage)
             }
             sale_data['items'].append(item_data)
         
@@ -132,8 +139,10 @@ def sales_report(request):
     total_revenue = queryset.aggregate(Sum('net_amount'))['net_amount__sum'] or 0
     total_discount = queryset.aggregate(Sum('discount_amount'))['discount_amount__sum'] or 0
     total_before_discount = queryset.aggregate(Sum('total_amount'))['total_amount__sum'] or 0
+    total_profit = queryset.aggregate(Sum('total_profit'))['total_profit__sum'] or 0
+    total_cost = queryset.aggregate(Sum('total_cost'))['total_cost__sum'] or 0
     
-    # Product performance
+    # Product performance with profit
     from django.db.models import F
     product_performance = SaleItem.objects.filter(
         sale__in=queryset
@@ -142,10 +151,12 @@ def sales_report(request):
     ).annotate(
         total_quantity_sold=Sum('quantity'),
         total_revenue=Sum('total_price'),
+        total_profit=Sum('profit'),
+        total_cost=Sum('total_cost'),
         sales_count=Count('sale', distinct=True)
     ).order_by('-total_revenue')[:10]
     
-    # Category performance
+    # Category performance with profit
     category_performance = SaleItem.objects.filter(
         sale__in=queryset
     ).values(
@@ -153,15 +164,19 @@ def sales_report(request):
     ).annotate(
         total_quantity_sold=Sum('quantity'),
         total_revenue=Sum('total_price'),
+        total_profit=Sum('profit'),
+        total_cost=Sum('total_cost'),
         sales_count=Count('sale', distinct=True)
     ).order_by('-total_revenue')
     
-    # Employee performance
+    # Employee performance with profit
     employee_performance = queryset.values(
         'created_by__first_name', 'created_by__last_name', 'created_by__username'
     ).annotate(
         total_sales=Count('id'),
-        total_revenue=Sum('net_amount')
+        total_revenue=Sum('net_amount'),
+        total_profit=Sum('total_profit'),
+        total_cost=Sum('total_cost')
     ).order_by('-total_revenue')
     
     return Response({
@@ -172,6 +187,9 @@ def sales_report(request):
             'total_revenue': float(total_revenue),
             'total_discount': float(total_discount),
             'total_before_discount': float(total_before_discount),
+            'total_profit': float(total_profit),
+            'total_cost': float(total_cost),
+            'profit_margin': float((total_profit / total_cost) * 100) if total_cost > 0 else 0,
             'average_sale_value': float(total_revenue / total_sales) if total_sales > 0 else 0,
             'average_discount_percentage': float((total_discount / total_before_discount) * 100) if total_before_discount > 0 else 0
         },

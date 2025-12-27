@@ -36,8 +36,6 @@ import {
   Logout,
   Notifications,
   Settings,
-  Brightness4,
-  Brightness7,
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 
